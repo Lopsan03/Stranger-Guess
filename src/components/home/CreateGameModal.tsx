@@ -18,7 +18,7 @@ export default function CreateGameModal({ onClose }: CreateGameModalProps) {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [nickname, setNickname] = useState('');
+  const [nickname] = useState('Host');
   const [rounds, setRounds] = useState(5);
   const [category, setCategory] = useState('mixed');
   const [answerTimer, setAnswerTimer] = useState(45);
@@ -134,21 +134,6 @@ export default function CreateGameModal({ onClose }: CreateGameModalProps) {
                 exit={{ opacity: 0, x: 20 }}
                 className="space-y-6"
               >
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase font-bold tracking-[0.2em] text-muted-foreground ml-1">Your Nickname</label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                    <input 
-                      type="text" 
-                      value={nickname}
-                      onChange={(e) => setNickname(e.target.value)}
-                      placeholder="Enter your name..." 
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white placeholder:text-white/20"
-                      maxLength={16}
-                    />
-                  </div>
-                </div>
-
                 <div className="space-y-4">
                   <label className="text-[10px] uppercase font-bold tracking-[0.2em] text-muted-foreground ml-1">Number of Rounds</label>
                   <div className="grid grid-cols-4 gap-2">
@@ -232,9 +217,8 @@ export default function CreateGameModal({ onClose }: CreateGameModalProps) {
                 </div>
 
                 <button 
-                  disabled={!nickname}
                   onClick={() => setStep(2)}
-                  className="w-full bg-primary/20 border border-primary/30 hover:bg-primary/30 disabled:opacity-30 disabled:cursor-not-allowed text-primary font-display text-2xl py-4 rounded-2xl transition-all flex items-center justify-center gap-2 group"
+                  className="w-full bg-primary/20 border border-primary/30 hover:bg-primary/30 text-white font-display text-2xl py-4 rounded-2xl transition-all flex items-center justify-center gap-2 group"
                 >
                   Choose Avatar <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -274,5 +258,3 @@ export default function CreateGameModal({ onClose }: CreateGameModalProps) {
     </div>
   );
 }
-
-import { AnimatePresence } from 'motion/react';

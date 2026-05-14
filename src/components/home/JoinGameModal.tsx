@@ -150,7 +150,7 @@ export default function JoinGameModal({ onClose, initialCode = '' }: JoinGameMod
                 <button 
                   disabled={code.length !== 6 || loading}
                   onClick={validateCode}
-                  className="w-full bg-accent text-black font-display text-2xl py-4 rounded-2xl transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group neon-glow-cyan"
+                  className="w-full bg-accent text-white font-display text-2xl py-4 rounded-2xl transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group neon-glow-cyan"
                 >
                   {loading ? 'Searching...' : '🎯 Find Game'}
                 </button>
@@ -189,7 +189,7 @@ export default function JoinGameModal({ onClose, initialCode = '' }: JoinGameMod
                 <button 
                   onClick={handleJoin}
                   disabled={loading || !nickname}
-                  className="w-full bg-accent text-black font-display text-2xl py-5 rounded-2xl transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group neon-glow-cyan"
+                  className="w-full bg-accent text-white font-display text-2xl py-5 rounded-2xl transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group neon-glow-cyan"
                 >
                   {loading ? 'Joining...' : '🎉 Join Game!'}
                 </button>
