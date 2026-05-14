@@ -1,0 +1,6 @@
+{
+  "name": "Stranger Guess",
+  "description": "A real-time multiplayer in-person party game for friends to answer anonymous questions and guess who said what.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

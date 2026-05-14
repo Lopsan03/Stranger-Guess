@@ -1,0 +1,101 @@
+{
+  "entities": {
+    "GameRoom": {
+      "title": "Game Room",
+      "description": "Represents a single game session/lobby.",
+      "type": "object",
+      "properties": {
+        "room_code": { "type": "string" },
+        "host_id": { "type": "string" },
+        "status": { "type": "string", "enum": ["lobby", "question", "answering", "revealing", "guessing", "round_results", "game_over"] },
+        "settings": {
+          "type": "object",
+          "properties": {
+            "num_rounds": { "type": "number" },
+            "category": { "type": "string" },
+            "answer_timer": { "type": "number" },
+            "guess_timer": { "type": "number" }
+          }
+        },
+        "current_round": { "type": "number" },
+        "current_question": { "type": "object" },
+        "current_answer_index": { "type": "number" },
+        "used_question_ids": { "type": "array" },
+        "phase_started_at": { "type": "string", "format": "date-time" },
+        "answers_submitted": { "type": "number" },
+        "guesses_submitted": { "type": "number" },
+        "total_players": { "type": "number" }
+      },
+      "required": ["room_code", "host_id", "status"]
+    },
+    "Player": {
+      "title": "Player",
+      "description": "A player within a specific game room.",
+      "type": "object",
+      "properties": {
+        "room_code": { "type": "string" },
+        "nickname": { "type": "string" },
+        "avatar_color": { "type": "string" },
+        "avatar_icon": { "type": "string" },
+        "score": { "type": "number" },
+        "session_id": { "type": "string" },
+        "is_host": { "type": "boolean" },
+        "is_ready": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["active", "kicked"] },
+        "round_score": { "type": "number" }
+      },
+      "required": ["room_code", "nickname", "session_id"]
+    },
+    "Answer": {
+      "title": "Answer",
+      "description": "A player's anonymous answer to a round's question.",
+      "type": "object",
+      "properties": {
+        "room_code": { "type": "string" },
+        "round_number": { "type": "number" },
+        "question_id": { "type": "string" },
+        "player_id": { "type": "string" },
+        "player_session_id": { "type": "string" },
+        "answer_text": { "type": "string" },
+        "is_revealed": { "type": "boolean" },
+        "reveal_order": { "type": "number" }
+      },
+      "required": ["room_code", "round_number", "question_id", "player_id", "answer_text"]
+    },
+    "Guess": {
+      "title": "Guess",
+      "description": "A player's guess for a revealed answer.",
+      "type": "object",
+      "properties": {
+        "room_code": { "type": "string" },
+        "round_number": { "type": "number" },
+        "answer_id": { "type": "string" },
+        "guesser_player_id": { "type": "string" },
+        "guesser_session_id": { "type": "string" },
+        "guessed_player_id": { "type": "string" },
+        "is_correct": { "type": "boolean" },
+        "time_taken": { "type": "number" },
+        "points_earned": { "type": "number" }
+      },
+      "required": ["room_code", "round_number", "answer_id", "guesser_player_id", "guessed_player_id"]
+    }
+  },
+  "firestore": {
+    "rooms": {
+      "schema": "GameRoom",
+      "description": "Collection of active game rooms."
+    },
+    "players": {
+      "schema": "Player",
+      "description": "Collection of players across all rooms."
+    },
+    "answers": {
+      "schema": "Answer",
+      "description": "Collection of answers submitted in rounds."
+    },
+    "guesses": {
+      "schema": "Guess",
+      "description": "Collection of guesses submitted for revealed answers."
+    }
+  }
+}
