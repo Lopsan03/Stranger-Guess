@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, Hash, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { db, authReady } from '../../lib/firebase';
 import { getSessionId, setPlayerData, handleFirestoreError } from '../../lib/gameUtils';
 import { PlayerStatus, OperationType } from '../../types';
 import AvatarPicker from '../shared/AvatarPicker';
@@ -29,6 +29,7 @@ export default function JoinGameModal({ onClose, initialCode = '' }: JoinGameMod
     setLoading(true);
     setError('');
     try {
+      await authReady;
       const q = query(collection(db, 'rooms'), where('room_code', '==', code.toUpperCase()));
       let snap;
       try {
@@ -57,6 +58,7 @@ export default function JoinGameModal({ onClose, initialCode = '' }: JoinGameMod
   const handleJoin = async () => {
     setLoading(true);
     try {
+      await authReady;
       const sessionId = getSessionId();
       const codeUpper = code.toUpperCase();
       
