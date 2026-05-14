@@ -164,22 +164,23 @@ export default function ScreenGameOver({ room, players, guesses }: ScreenGameOve
       </div>
 
       <div className="flex flex-col sm:flex-row justify-center gap-6 pt-12">
-        {isHost ? (
-          <>
-            <button
-              onClick={handlePlayAgain}
-              className="bg-primary hover:bg-primary/90 text-white font-display text-4xl px-16 py-6 rounded-[2.5rem] transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-3 group neon-glow-purple"
-            >
-              🔄 Play Again
-            </button>
-            <button
-              onClick={() => navigate('/')}
-              className="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-display text-4xl px-16 py-6 rounded-[2.5rem] transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-3 group"
-            >
-              🏠 New Game
-            </button>
-          </>
-        ) : (
+        {isHost && (
+          <button
+            onClick={handlePlayAgain}
+            className="bg-primary hover:bg-primary/90 text-white font-display text-4xl px-16 py-6 rounded-[2.5rem] transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-3 group neon-glow-purple"
+          >
+            🔄 Play Again
+          </button>
+        )}
+
+        <button
+          onClick={() => navigate('/')}
+          className="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-display text-4xl px-16 py-6 rounded-[2.5rem] transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-3 group"
+        >
+          🏠 Return Home
+        </button>
+
+        {!isHost && (
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-3 bg-white/5 px-12 py-6 rounded-[2.5rem] border border-white/10 font-display text-3xl tracking-wide text-muted-foreground">
               Waiting for host to reset...

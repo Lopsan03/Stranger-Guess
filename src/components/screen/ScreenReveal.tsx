@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { GameRoom, Answer, Player, GameStatus } from '../../types';
 import { updateDoc, doc } from 'firebase/firestore';
@@ -18,14 +19,20 @@ export default function ScreenReveal({ room, answers, players }: ScreenRevealPro
   const currentPlayerData = getPlayerData();
   const isHost = currentPlayerData?.isHost && currentPlayerData.roomCode === room.room_code;
 
-  const handleStartGuessing = async () => {
-    const roomRef = doc(db, 'rooms', room.id!);
-    await updateDoc(roomRef, {
-      status: GameStatus.GUESSING,
-      phase_started_at: new Date().toISOString(),
-      guesses_submitted: 0
-    });
-  };
+  useEffect(() => {
+    if (!isHost) return;
+
+    const timer = window.setTimeout(() => {
+      const roomRef = doc(db, 'rooms', room.id!);
+      void updateDoc(roomRef, {
+        status: GameStatus.GUESSING,
+        phase_started_at: new Date().toISOString(),
+        guesses_submitted: 0
+      });
+    }, 1500);
+
+    return () => window.clearTimeout(timer);
+  }, [isHost, room.id]);
 
   if (!currentAnswer) return <div>Loading answer...</div>;
 
@@ -68,21 +75,14 @@ export default function ScreenReveal({ room, answers, players }: ScreenRevealPro
           WHO SAID THIS?
         </h2>
 
-        {isHost ? (
-          <button
-            onClick={handleStartGuessing}
-            className="bg-primary hover:bg-primary/90 text-white font-display text-3xl px-12 py-5 rounded-[2rem] transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-3 group neon-glow-purple"
-          >
-            Start Guessing Phase <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity }}>→</motion.span>
-          </button>
-        ) : (
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-3 bg-white/5 px-8 py-4 rounded-3xl border border-white/10 font-display text-2xl tracking-wide text-muted-foreground">
-              <span className="animate-pulse">👀</span> Watch closely...
-            </div>
-            <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Waiting for host to start guessing phase</p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex items-center gap-3 bg-white/5 px-8 py-4 rounded-3xl border border-white/10 font-display text-2xl tracking-wide text-muted-foreground">
+            <span className="animate-pulse">⏱️</span> Guessing phase will start automatically
           </div>
-        )}
+          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">
+            {isHost ? 'Preparing the next phase...' : 'Please wait while the game progresses'}
+          </p>
+        </div>
         
         <p className="text-muted-foreground uppercase text-[10px] font-bold tracking-[0.2em] flex items-center gap-2">
           <span>📱</span> Select your guess on your phone!

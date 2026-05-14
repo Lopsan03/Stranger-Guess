@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, User, Hash, Globe, Clock, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { collection, doc, setDoc } from 'firebase/firestore';

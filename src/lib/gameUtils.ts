@@ -27,10 +27,10 @@ export function generateRoomCode(): string {
 }
 
 export function getSessionId(): string {
-  let sessionId = sessionStorage.getItem('stranger_guess_session');
+  let sessionId = localStorage.getItem('stranger_guess_session');
   if (!sessionId) {
     sessionId = 'session_' + Math.random().toString(36).substring(2, 15);
-    sessionStorage.setItem('stranger_guess_session', sessionId);
+    localStorage.setItem('stranger_guess_session', sessionId);
   }
   return sessionId;
 }
@@ -43,16 +43,16 @@ export interface PlayerData {
 }
 
 export function setPlayerData(data: PlayerData) {
-  sessionStorage.setItem('stranger_guess_player_data', JSON.stringify(data));
+  localStorage.setItem('stranger_guess_player_data', JSON.stringify(data));
 }
 
 export function getPlayerData(): PlayerData | null {
-  const data = sessionStorage.getItem('stranger_guess_player_data');
+  const data = localStorage.getItem('stranger_guess_player_data');
   return data ? JSON.parse(data) : null;
 }
 
 export function clearPlayerData() {
-  sessionStorage.removeItem('stranger_guess_player_data');
+  localStorage.removeItem('stranger_guess_player_data');
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {

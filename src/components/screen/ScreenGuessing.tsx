@@ -17,7 +17,7 @@ interface ScreenGuessingProps {
 
 export default function ScreenGuessing({ room, answers, players, guesses }: ScreenGuessingProps) {
   const currentRoundAnswers = answers.filter(a => a.round_number === room.current_round);
-  const currentAnswer = currentRoundAnswers.find(a => a.reveal_order === room.current_answer_index);
+  const currentAnswer = currentRoundAnswers.find(a => a.reveal_order === room.current_answer_index) ?? currentRoundAnswers[room.current_answer_index];
   const author = players.find(p => p.id === currentAnswer?.player_id);
   const currentPlayerData = getPlayerData();
   const isHost = currentPlayerData?.isHost && currentPlayerData.roomCode === room.room_code;
@@ -105,7 +105,16 @@ export default function ScreenGuessing({ room, answers, players, guesses }: Scre
     }
   }, [guessedCount, totalGuessers]);
 
-  if (!currentAnswer) return null;
+  if (!currentAnswer) {
+    return (
+      <div className="w-full min-h-[60vh] flex items-center justify-center">
+        <div className="text-center">
+          <p className="font-display text-3xl text-white mb-3">Loading the current answer...</p>
+          <p className="text-muted-foreground">Please wait while we sync the game state.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-5xl space-y-12 flex flex-col items-center">
